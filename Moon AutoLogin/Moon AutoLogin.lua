@@ -1,8 +1,8 @@
-script_name = 'Moon AutoLogin' -- ГЌГ Г§ГўГ Г­ГЁГҐ Г±ГЄГ°ГЁГЇГІГ 
-script_prefix = '{068aff}[Moon AutoLogin] ' -- ГЏГ°ГҐГґГЁГЄГ± Г±ГЄГ°ГЁГЇГІГ 
-script_author = 'ASKIT' -- ГЂГўГІГ®Г° Г±ГЄГ°ГЁГЇГІГ 
-script_version = '06.10.21' -- Г‚ГҐГ°Г±ГЁГї Г±ГЄГ°ГЁГЇГІГ 
-script_site = 'vk.com/moonstd' -- Г‘Г Г©ГІ
+script_name = 'Moon AutoLogin' -- Название скрипта
+script_prefix = '{068aff}[Moon AutoLogin] ' -- Префикс скрипта
+script_author = 'ASKIT' -- Автор скрипта
+script_version = '07.10.21' -- Версия скрипта
+script_site = 'vk.com/moonstd' -- Сайт
 
 require "lib.moonloader"
 local sampev = require('lib.samp.events')
@@ -35,22 +35,22 @@ function main()
     autoupdate('https://raw.githubusercontent.com/oASKITo/moonstd/main/Moon%20AutoLogin/version.json?token=AMULBFNMPAY4ASXTHDEDWTTBLWP3A', script_prefix, 'https://vk.com/moonstd')
     while not isSampAvailable() do wait(100) end
 
-    -- Г‘Г®Г®ГЎГ№ГҐГ­ГЁГї
+    -- Сообщения
         print('{068aff}-------------------------------------------------')
-        print('{068aff}| {ffffff}Г‘ГЄГ°ГЁГЇГІ ГіГ±ГЇГҐГёГ­Г® Г§Г ГЈГ°ГіГ¦ГҐГ­. ГЊГҐГ­Гѕ Г±ГЄГ°ГЁГЇГІГ : {ffd700}/mal')
-        print('{068aff}| {ffffff}ГђГ Г§Г°Г ГЎГ®ГІГ·ГЁГЄ Г±ГЄГ°ГЁГЇГІГ : {ffd700}vk.com/moonstd')
+        print('{068aff}| {ffffff}Скрипт успешно загружен. Меню скрипта: {ffd700}/mal')
+        print('{068aff}| {ffffff}Разработчик скрипта: {ffd700}vk.com/moonstd')
         print('{068aff}-------------------------------------------------')
 
-    -- ГЉГ®Г¬Г Г­Г¤Г»
+    -- Команды
         sampRegisterChatCommand("mal", cmd_mal)
 
-    -- Г”ГіГ­ГЄГ¶ГЁГЁ
+    -- Функции
         Process()
 
 end
 
 
--- ГЋГ±Г­Г®ГўГ­Г Гї ГЄГ®Г¬Г Г­Г¤Г 
+-- Основная команда
 function cmd_mal(arg)
 
     if arg == '' then
@@ -64,7 +64,7 @@ function cmd_mal(arg)
 end
 
 
--- ГЋГІГ°ГЁГ±Г®ГўГЄГ  ImGui
+-- Отрисовка ImGui
 function imgui.OnDrawFrame()
 
     if mainWindowState.v then
@@ -73,7 +73,7 @@ function imgui.OnDrawFrame()
         imgui.SetNextWindowPos(imgui.ImVec2(resX/2, resY/2), 2, imgui.ImVec2(0.5, 0.5))
         imgui.Begin(script_name..' '..script_version, mainWindowState, imgui.WindowFlags.NoResize)
 
-            if imgui.Checkbox(u8'ГЂГўГІГ®-ГўГўГ®Г¤ ГЇГ Г°Г®Г«ГҐГ©', active) then
+            if imgui.Checkbox(u8'Авто-ввод паролей', active) then
                 cfg.settings.active = active.v
                 inicfg.save(cfg)
                 Process()
@@ -81,19 +81,19 @@ function imgui.OnDrawFrame()
             imgui.Spacing()
             imgui.Spacing()
             imgui.PushItemWidth(150)
-            if imgui.InputText(u8' ГЏГ Г°Г®Г«Гј Г®ГІ Г ГЄГЄГ ГіГ­ГІГ ', pass1, imgui.InputTextFlags.Password) then
+            if imgui.InputText(u8' Пароль от аккаунта', pass1, imgui.InputTextFlags.Password) then
                 cfg.settings.pass1 = pass1.v
                 inicfg.save(cfg)
             end
             imgui.PushItemWidth(150)
-            if imgui.InputText(u8' ГЏГ Г°Г®Г«Гј Г®ГІ Г Г¤Г¬ГЁГ­ГЄГЁ', pass2, imgui.InputTextFlags.Password) then
+            if imgui.InputText(u8' Пароль от админки', pass2, imgui.InputTextFlags.Password) then
                 cfg.settings.pass2 = pass2.v
                 inicfg.save(cfg)
             end
             imgui.Spacing()
             imgui.Spacing()
-            imgui.SetCursorPosX((imgui.GetWindowWidth() - imgui.CalcTextSize(u8"Г‘ГўГїГ§Г ГІГјГ±Гї Г± ГЂГўГІГ®Г°Г®Г¬").x) / 2)
-            if imgui.Button(u8'Г‘ГўГїГ§Г ГІГјГ±Гї Г± ГЂГўГІГ®Г°Г®Г¬') then os.execute('explorer "https://vk.com/askit.himself"') end
+            imgui.SetCursorPosX((imgui.GetWindowWidth() - imgui.CalcTextSize(u8"Связаться с Автором").x) / 2)
+            if imgui.Button(u8'Связаться с Автором') then os.execute('explorer "https://vk.com/askit.himself"') end
 
         imgui.End()
         imgui.Process = mainWindowState.v
@@ -102,7 +102,7 @@ function imgui.OnDrawFrame()
 end
 
 
--- ГЏГ°Г®Г¶ГҐГ±Г± ГўГўГ®Г¤Г  ГЇГ Г°Г®Г«ГҐГ©
+-- Процесс ввода паролей
 function Process()
 
     if cfg.settings.active then
@@ -130,12 +130,12 @@ function Process()
 end
 
 
--- ГЏГ°Г®ГўГҐГ°ГЄГ  Г¤ГЁГ Г«Г®ГЈГ 
+-- Проверка диалога
 function sampev.onShowDialog(id, style, title, button1, button2, text)
 
-    if title == '{B789CF}ГЂГўГІГ®Г°ГЁГ§Г Г¶ГЁГї' or title == 'ГЂГўГІГ®Г°ГЁГ§Г Г¶ГЁГї' then
+    if title == '{B789CF}Авторизация' or title == 'Авторизация' then
         dialog = '1'
-    elseif text == '{FFFFFF}Г‚ГўГҐГ¤ГЁГІГҐ ГЇГ Г°Г®Г«Гј Г Г¤Г¬ГЁГ­ГЁГ±ГІГ°Г ГІГ®Г°Г :' then
+    elseif text == '{FFFFFF}Введите пароль администратора:' then
         dialog = '2'
 
     end
@@ -143,7 +143,7 @@ function sampev.onShowDialog(id, style, title, button1, button2, text)
 end
 
 
--- Г‘Г®ГµГ°Г Г­ГҐГ­ГЁГҐ ГЄГ®Г­ГґГЁГЈГ 
+-- Сохранение конфига
 function saveData()
     inicfg.save({
         settings = {
@@ -154,7 +154,7 @@ function saveData()
     }, getWorkingDirectory() .. "\\moonstd\\Moon AutoLogin.ini")
 end
 
--- ГЂГўГІГ®-Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ. ГЂГўГІГ®Г°: http://qrlk.me/samp
+-- Авто-обновление. Автор: http://qrlk.me/samp
 function autoupdate(json_url, prefix, url)
   local dlstatus = require('moonloader').download_status
   local json = getWorkingDirectory() .. '\\'..thisScript().name..'-version.json'
@@ -174,21 +174,21 @@ function autoupdate(json_url, prefix, url)
               lua_thread.create(function(prefix)
                 local dlstatus = require('moonloader').download_status
                 local color = -1
-                sampAddChatMessage((prefix..'ГЋГЎГ­Г Г°ГіГ¦ГҐГ­Г® Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ. ГЏГ»ГІГ ГѕГ±Гј Г®ГЎГ­Г®ГўГЁГІГјГ±Гї c '..script_version..' Г­Г  '..updateversion), color)
+                sampAddChatMessage((prefix..'Обнаружено обновление. Пытаюсь обновиться c '..script_version..' на '..updateversion), color)
                 wait(250)
                 downloadUrlToFile(updatelink, thisScript().path,
                   function(id3, status1, p13, p23)
                     if status1 == dlstatus.STATUS_DOWNLOADINGDATA then
-                      print(string.format('Г‡Г ГЈГ°ГіГ¦ГҐГ­Г® %d ГЁГ§ %d.', p13, p23))
+                      print(string.format('Загружено %d из %d.', p13, p23))
                     elseif status1 == dlstatus.STATUS_ENDDOWNLOADDATA then
-                      print('Г‡Г ГЈГ°ГіГ§ГЄГ  Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГї Г§Г ГўГҐГ°ГёГҐГ­Г .')
-                      sampAddChatMessage((prefix..'ГЋГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ Г§Г ГўГҐГ°ГёГҐГ­Г®!'), color)
+                      print('Загрузка обновления завершена.')
+                      sampAddChatMessage((prefix..'Обновление завершено!'), color)
                       goupdatestatus = true
                       lua_thread.create(function() wait(500) thisScript():reload() end)
                     end
                     if status1 == dlstatus.STATUSEX_ENDDOWNLOAD then
                       if goupdatestatus == nil then
-                        sampAddChatMessage((prefix..'ГЋГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ ГЇГ°Г®ГёГ«Г® Г­ГҐГіГ¤Г Г·Г­Г®. Г‡Г ГЇГіГ±ГЄГ Гѕ ГіГ±ГІГ Г°ГҐГўГёГіГѕ ГўГҐГ°Г±ГЁГѕ..'), color)
+                        sampAddChatMessage((prefix..'Обновление прошло неудачно. Запускаю устаревшую версию..'), color)
                         update = false
                       end
                     end
@@ -198,11 +198,11 @@ function autoupdate(json_url, prefix, url)
               )
             else
               update = false
-              print('v'..script_version..': ГЋГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ Г­ГҐ ГІГ°ГҐГЎГіГҐГІГ±Гї.')
+              print('v'..script_version..': Обновление не требуется.')
             end
           end
         else
-          print('v'..script_version..': ГЌГҐ Г¬Г®ГЈГі ГЇГ°Г®ГўГҐГ°ГЁГІГј Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ. Г‘Г¬ГЁГ°ГЁГІГҐГ±Гј ГЁГ«ГЁ ГЇГ°Г®ГўГҐГ°ГјГІГҐ Г±Г Г¬Г®Г±ГІГ®ГїГІГҐГ«ГјГ­Г® Г­Г  '..url)
+          print('v'..script_version..': Не могу проверить обновление. Смиритесь или проверьте самостоятельно на '..url)
           update = false
         end
       end
@@ -212,8 +212,8 @@ function autoupdate(json_url, prefix, url)
 end
 
 
--- ГЏГҐГ°ГҐГ§Г ГЈГ°ГіГ§ГЄГ  Г±ГЄГ°ГЁГЇГІГ 
+-- Перезагрузка скрипта
 function scriptReload()
     thisScript():reload()
-    sampAddChatMessage(script_prefix..'{ffffff}Г‘ГЄГ°ГЁГЇГІ ГЇГҐГ°ГҐГ§Г ГЈГ°ГіГ¦ГҐГ­.', -1)
+    sampAddChatMessage(script_prefix..'{ffffff}Скрипт перезагружен.', -1)
 end
