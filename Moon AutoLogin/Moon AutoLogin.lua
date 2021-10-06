@@ -1,9 +1,9 @@
-script_name('Moon AutoLogin') -- Название скрипта
-script_prefix('{068aff}[Moon AutoLogin] ') -- Префикс скрипта
-script_author('ASKIT') -- Автор скрипта
-script_version('28.09.2021') -- Версия скрипта
-script_version_number(1) -- Номер версии скрипта
-script_site('vk.com/moonstd') -- Сайт
+script_name = 'Moon AutoLogin' -- Название скрипта
+script_prefix = '{068aff}[Moon AutoLogin] ' -- Префикс скрипта
+script_author = 'ASKIT' -- Автор скрипта
+script_version = '05.10.21' -- Версия скрипта
+script_version_number = 2 -- Номер версии скрипта
+script_site = 'vk.com/moonstd' -- Сайт
 
 require "lib.moonloader"
 local sampev = require('lib.samp.events')
@@ -36,7 +36,7 @@ function main()
     while not isSampAvailable() do wait(100) end
 
     -- Обновление
-        if checkUpdates('https://raw.githubusercontent.com/oASKITo/moonstd/main/Moon%20AutoLogin/version.json?token=AMULBFICW2UNYZJW2WZZ6F3BLWFNU') then update('https://github.com/Akionka/anti-radar/raw/master/anti-radar-mh.lua') end
+        if checkUpdates('https://raw.githubusercontent.com/oASKITo/moonstd/main/Moon%20AutoLogin/version.json?token=AMULBFICW2UNYZJW2WZZ6F3BLWFNU') then update('https://raw.githubusercontent.com/oASKITo/moonstd/main/Moon%20AutoLogin/Moon%20AutoLogin.lua?token=AMULBFK6W3TNGXS5IKK3VT3BLWGLO') end
 
     -- Сообщения
         print('{068aff}-------------------------------------------------')
