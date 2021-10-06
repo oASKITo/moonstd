@@ -1,7 +1,7 @@
 script_name = 'Moon AutoLogin' -- Название скрипта
 script_prefix = '{068aff}[Moon AutoLogin] ' -- Префикс скрипта
 script_author = 'ASKIT' -- Автор скрипта
-script_version = '07.10.21' -- Версия скрипта
+script_version = '06.10.21' -- Версия скрипта
 script_site = 'vk.com/moonstd' -- Сайт
 
 require "lib.moonloader"
