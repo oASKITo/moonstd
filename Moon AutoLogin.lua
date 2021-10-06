@@ -1,7 +1,7 @@
 script_name = 'Moon AutoLogin' -- Название скрипта
-script_prefix = '{068aff}[Moon AutoLogin] ' -- Префикс скрипта
+script_prefix = '{068aff}[Moon AutoLogin] {ffffff}' -- Префикс скрипта
 script_author = 'ASKIT' -- Автор скрипта
-script_version = '06.10.21' -- Версия скрипта
+script_version = '07.10.21' -- Версия скрипта
 script_site = 'vk.com/moonstd' -- Сайт
 
 require "lib.moonloader"
@@ -34,12 +34,6 @@ function main()
     if not isSampLoaded() or not isSampfuncsLoaded() then return end
     autoupdate('https://raw.githubusercontent.com/oASKITo/moonstd/main/Moon%20AutoLogin/version.json', script_prefix, 'https://vk.com/moonstd')
     while not isSampAvailable() do wait(100) end
-
-    -- Сообщения
-        print('{068aff}-------------------------------------------------')
-        print('{068aff}| {ffffff}Скрипт успешно загружен. Меню скрипта: {ffd700}/mal')
-        print('{068aff}| {ffffff}Разработчик скрипта: {ffd700}vk.com/moonstd')
-        print('{068aff}-------------------------------------------------')
 
     -- Команды
         sampRegisterChatCommand("mal", cmd_mal)
@@ -151,7 +145,7 @@ function saveData()
         pass1 = data.settings.pass1,
         pass2 = data.settings.pass1
         }
-    }, getWorkingDirectory() .. "\\moonstd\\Moon AutoLogin.ini")
+    }, getWorkingDirectory() .. "Moon AutoLogin.ini")
 end
 
 -- Авто-обновление. Автор: http://qrlk.me/samp
@@ -215,5 +209,5 @@ end
 -- Перезагрузка скрипта
 function scriptReload()
     thisScript():reload()
-    sampAddChatMessage(script_prefix..'{ffffff}Скрипт перезагружен.', -1)
+    sampAddChatMessage(script_prefix..'Скрипт перезагружен.', -1)
 end
