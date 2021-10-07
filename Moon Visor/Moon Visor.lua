@@ -50,6 +50,7 @@ local rp_offVisor = imgui.ImBuffer(cfg.settings.rp_offVisor, 256)
 
 function main()
     if not isSampLoaded() or not isSampfuncsLoaded() then return end
+    autoupdate('https://raw.githubusercontent.com/oASKITo/moonstd/main/Moon%20Visor/version.json', script_prefix, 'https://vk.com/moonstd')
     while not isSampAvailable() do wait(100) end
 
     -- Команды
