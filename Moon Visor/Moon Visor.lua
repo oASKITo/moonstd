@@ -1,13 +1,13 @@
-script_name = 'Moon Visor' -- Название скрипта
-script_prefix = '{068aff}[Moon Visor] {ffffff}' -- Префикс скрипта
-script_author = 'ASKIT' -- Автор скрипта
-script_version = '07.10.21' -- Версия скрипта
-script_site = 'vk.com/moonstd' -- Сайт
+script_name = 'Moon Visor' -- ГЌГ Г§ГўГ Г­ГЁГҐ Г±ГЄГ°ГЁГЇГІГ 
+script_prefix = '{068aff}[Moon Visor] {ffffff}' -- ГЏГ°ГҐГґГЁГЄГ± Г±ГЄГ°ГЁГЇГІГ 
+script_author = 'ASKIT' -- ГЂГўГІГ®Г° Г±ГЄГ°ГЁГЇГІГ 
+script_version = '08.10.21' -- Г‚ГҐГ°Г±ГЁГї Г±ГЄГ°ГЁГЇГІГ 
+script_site = 'vk.com/moonstd' -- Г‘Г Г©ГІ
 
 require "lib.moonloader"
 local sampev = require('lib.samp.events')
-local wm = require 'lib.windows.message' -- Библиотека с оконными сообщениями
-local vkeys = require 'vkeys' -- Библиотека с клавишами
+local wm = require 'lib.windows.message' -- ГЃГЁГЎГ«ГЁГ®ГІГҐГЄГ  Г± Г®ГЄГ®Г­Г­Г»Г¬ГЁ Г±Г®Г®ГЎГ№ГҐГ­ГЁГїГ¬ГЁ
+local vkeys = require 'vkeys' -- ГЃГЁГЎГ«ГЁГ®ГІГҐГЄГ  Г± ГЄГ«Г ГўГЁГёГ Г¬ГЁ
 local imgui = require 'imgui'
 local encoding = require 'encoding'
 encoding.default = 'cp1251'
@@ -22,9 +22,9 @@ local cfg = inicfg.load(inicfg.load({
         effect_infraredVision = false,
         use_roleplay = false,
         use_animation = false,
-        rp_onVisor = u8('активировал визор в режиме ночного видения.'),
-        rp_toggleVisor = u8('переключил визор в режим инфрокрасного зрения.'),
-        rp_offVisor = u8('отключил визор.'),
+        rp_onVisor = u8('Г ГЄГІГЁГўГЁГ°Г®ГўГ Г« ГўГЁГ§Г®Г° Гў Г°ГҐГ¦ГЁГ¬ГҐ Г­Г®Г·Г­Г®ГЈГ® ГўГЁГ¤ГҐГ­ГЁГї.'),
+        rp_toggleVisor = u8('ГЇГҐГ°ГҐГЄГ«ГѕГ·ГЁГ« ГўГЁГ§Г®Г° Гў Г°ГҐГ¦ГЁГ¬ ГЁГ­ГґГ°Г®ГЄГ°Г Г±Г­Г®ГЈГ® Г§Г°ГҐГ­ГЁГї.'),
+        rp_offVisor = u8('Г®ГІГЄГ«ГѕГ·ГЁГ« ГўГЁГ§Г®Г°.'),
     },
 }, direct_cfg))
 inicfg.save(cfg, direct_cfg)
@@ -32,10 +32,10 @@ inicfg.save(cfg, direct_cfg)
 --========================================--
 local resX, resY = getScreenResolution()
 
--- Окна
+-- ГЋГЄГ­Г 
 local mainWindowState = imgui.ImBool(false)
 
--- Настройки
+-- ГЌГ Г±ГІГ°Г®Г©ГЄГЁ
 local script_enabled = imgui.ImBool(cfg.settings.script_enabled)
 local script_hothey = imgui.ImInt(cfg.settings.script_hothey)
 local effect_nightVision = imgui.ImBool(cfg.settings.effect_nightVision)
@@ -53,16 +53,16 @@ function main()
     autoupdate('https://raw.githubusercontent.com/oASKITo/moonstd/main/Moon%20Visor/version.json', script_prefix, 'https://vk.com/moonstd')
     while not isSampAvailable() do wait(100) end
 
-    -- Команды
+    -- ГЉГ®Г¬Г Г­Г¤Г»
         sampRegisterChatCommand('mv', cmd_mv)
 
-    -- Функции
+    -- Г”ГіГ­ГЄГ¶ГЁГЁ
         visor()
 
 end
 
 
--- Основная команда
+-- ГЋГ±Г­Г®ГўГ­Г Гї ГЄГ®Г¬Г Г­Г¤Г 
 function cmd_mv(arg)
 
     if arg == '' then
@@ -76,7 +76,7 @@ function cmd_mv(arg)
 end
 
 
--- Отрисовка ImGui
+-- ГЋГІГ°ГЁГ±Г®ГўГЄГ  ImGui
 function imgui.OnDrawFrame()
 
     if mainWindowState.v then
@@ -84,52 +84,52 @@ function imgui.OnDrawFrame()
         imgui.SetNextWindowPos(imgui.ImVec2(resX/2, resY/2), 2, imgui.ImVec2(0.5, 0.5))
         imgui.Begin(script_name..' '..script_version..' by '..script_author, mainWindowState, imgui.WindowFlags.NoResize + imgui.WindowFlags.AlwaysAutoResize + imgui.WindowFlags.NoCollapse)
 
-            if imgui.Checkbox(u8'Активировать скрипт', script_enabled) then
+            if imgui.Checkbox(u8'ГЂГЄГІГЁГўГЁГ°Г®ГўГ ГІГј Г±ГЄГ°ГЁГЇГІ', script_enabled) then
                 cfg.settings.script_enabled = script_enabled.v
                 inicfg.save(cfg)
             end
-            imgui.Question(u8'Активируйте скрипт, чтобы использовать визор')
+            imgui.Question(u8'ГЂГЄГІГЁГўГЁГ°ГіГ©ГІГҐ Г±ГЄГ°ГЁГЇГІ, Г·ГІГ®ГЎГ» ГЁГ±ГЇГ®Г«ГјГ§Г®ГўГ ГІГј ГўГЁГ§Г®Г°')
             imgui.SameLine()
             imgui.PushItemWidth(30)
-            if imgui.InputInt(u8'Клавиша активации визора', script_hothey, 0, 0) then
+            if imgui.InputInt(u8'ГЉГ«Г ГўГЁГёГ  Г ГЄГІГЁГўГ Г¶ГЁГЁ ГўГЁГ§Г®Г°Г ', script_hothey, 0, 0) then
                 cfg.settings.script_hothey = script_hothey.v
                 inicfg.save(cfg)
             end
             imgui.SameLine()
-            if imgui.Link(u8"(?)", u8"Перейти на сайт, для просмотра номеров клавиш") then
+            if imgui.Link(u8"(?)", u8"ГЏГҐГ°ГҐГ©ГІГЁ Г­Г  Г±Г Г©ГІ, Г¤Г«Гї ГЇГ°Г®Г±Г¬Г®ГІГ°Г  Г­Г®Г¬ГҐГ°Г®Гў ГЄГ«Г ГўГЁГё") then
                 os.execute(('explorer.exe "%s"'):format('https://www.blast.hk/threads/8760/'))
             end
             imgui.Spacing()
             imgui.Spacing()
             imgui.Separator()
             imgui.Spacing()
-            if imgui.Checkbox(u8'Ролеплей отыгровки', use_roleplay) then
+            if imgui.Checkbox(u8'ГђГ®Г«ГҐГЇГ«ГҐГ© Г®ГІГ»ГЈГ°Г®ГўГЄГЁ', use_roleplay) then
                 cfg.settings.use_roleplay = use_roleplay.v
                 inicfg.save(cfg)
             end
             imgui.SameLine()
-            if imgui.Checkbox(u8'Анимация', use_animation) then
+            if imgui.Checkbox(u8'ГЂГ­ГЁГ¬Г Г¶ГЁГї', use_animation) then
                 cfg.settings.use_animation = use_animation.v
                 inicfg.save(cfg)
             end
-            imgui.Question(u8'Анимация надевания визора')
+            imgui.Question(u8'ГЂГ­ГЁГ¬Г Г¶ГЁГї Г­Г Г¤ГҐГўГ Г­ГЁГї ГўГЁГ§Г®Г°Г ')
             if cfg.settings.use_roleplay then
                 imgui.PushItemWidth(340)
                 imgui.Text('/me')
                 imgui.SameLine()
-                if imgui.InputTextWithHint(u8'##rp_onVisor', u8'Включение визора', rp_onVisor) then
+                if imgui.InputTextWithHint(u8'##rp_onVisor', u8'Г‚ГЄГ«ГѕГ·ГҐГ­ГЁГҐ ГўГЁГ§Г®Г°Г ', rp_onVisor) then
                     cfg.settings.rp_onVisor = rp_onVisor.v
                     inicfg.save(cfg)
                 end
                 imgui.Text('/me')
                 imgui.SameLine()
-                if imgui.InputTextWithHint(u8'##rp_toggleVisor', u8'Переключение визора', rp_toggleVisor) then
+                if imgui.InputTextWithHint(u8'##rp_toggleVisor', u8'ГЏГҐГ°ГҐГЄГ«ГѕГ·ГҐГ­ГЁГҐ ГўГЁГ§Г®Г°Г ', rp_toggleVisor) then
                     cfg.settings.rp_toggleVisor = rp_toggleVisor.v
                     inicfg.save(cfg)
                 end
                 imgui.Text('/me')
                 imgui.SameLine()
-                if imgui.InputTextWithHint(u8'##rp_offVisor', u8'Отключение визора', rp_offVisor) then
+                if imgui.InputTextWithHint(u8'##rp_offVisor', u8'ГЋГІГЄГ«ГѕГ·ГҐГ­ГЁГҐ ГўГЁГ§Г®Г°Г ', rp_offVisor) then
                     cfg.settings.rp_offVisor = rp_offVisor.v
                     inicfg.save(cfg)
                 end
@@ -175,7 +175,7 @@ function visor()
 end
 
 
--- Подсказка на Button/InputText/Checkbox
+-- ГЏГ®Г¤Г±ГЄГ Г§ГЄГ  Г­Г  Button/InputText/Checkbox
 function imgui.Question(text)
     if imgui.IsItemHovered() then
         imgui.BeginTooltip()
@@ -187,7 +187,7 @@ function imgui.Question(text)
 end
 
 
--- Закрытие окна ImGui на ESC
+-- Г‡Г ГЄГ°Г»ГІГЁГҐ Г®ГЄГ­Г  ImGui Г­Г  ESC
 function onWindowMessage(msg, wparam, lparam)
 
     if wparam == vkeys.VK_ESCAPE and mainWindowState.v then
@@ -203,7 +203,7 @@ function onWindowMessage(msg, wparam, lparam)
 end
 
 
--- Ссылка
+-- Г‘Г±Г»Г«ГЄГ 
 function imgui.Link(label, description)
 
     local size = imgui.CalcTextSize(label)
@@ -234,8 +234,8 @@ function imgui.Link(label, description)
 end
 
 
--- Placeholder для InputText
--- Использование: imgui.InputTextWithHint(u8"Текст", "Подсказка", im_buffer)
+-- Placeholder Г¤Г«Гї InputText
+-- Г€Г±ГЇГ®Г«ГјГ§Г®ГўГ Г­ГЁГҐ: imgui.InputTextWithHint(u8"Г’ГҐГЄГ±ГІ", "ГЏГ®Г¤Г±ГЄГ Г§ГЄГ ", im_buffer)
 function imgui.InputTextWithHint(label, hint, buf, flags, callback, user_data)
     local l_pos = {imgui.GetCursorPos(), 0}
     local handle = imgui.InputText(label, buf, flags, callback, user_data)
@@ -249,7 +249,7 @@ function imgui.InputTextWithHint(label, hint, buf, flags, callback, user_data)
 end
 
 
--- Авто-обновление. Автор: http://qrlk.me/samp
+-- ГЂГўГІГ®-Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ. ГЂГўГІГ®Г°: http://qrlk.me/samp
 function autoupdate(json_url, prefix, url)
   local dlstatus = require('moonloader').download_status
   local json = getWorkingDirectory() .. '\\'..thisScript().name..'-version.json'
@@ -269,21 +269,21 @@ function autoupdate(json_url, prefix, url)
               lua_thread.create(function(prefix)
                 local dlstatus = require('moonloader').download_status
                 local color = -1
-                sampAddChatMessage((prefix..'Обнаружено обновление. Пытаюсь обновиться c '..script_version..' на '..updateversion), color)
+                sampAddChatMessage((prefix..'ГЋГЎГ­Г Г°ГіГ¦ГҐГ­Г® Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ. ГЏГ»ГІГ ГѕГ±Гј Г®ГЎГ­Г®ГўГЁГІГјГ±Гї c '..script_version..' Г­Г  '..updateversion), color)
                 wait(250)
                 downloadUrlToFile(updatelink, thisScript().path,
                   function(id3, status1, p13, p23)
                     if status1 == dlstatus.STATUS_DOWNLOADINGDATA then
-                      print(string.format('Загружено %d из %d.', p13, p23))
+                      print(string.format('Г‡Г ГЈГ°ГіГ¦ГҐГ­Г® %d ГЁГ§ %d.', p13, p23))
                     elseif status1 == dlstatus.STATUS_ENDDOWNLOADDATA then
-                      print('Загрузка обновления завершена.')
-                      sampAddChatMessage((prefix..'Обновление завершено!'), color)
+                      print('Г‡Г ГЈГ°ГіГ§ГЄГ  Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГї Г§Г ГўГҐГ°ГёГҐГ­Г .')
+                      sampAddChatMessage((prefix..'ГЋГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ Г§Г ГўГҐГ°ГёГҐГ­Г®!'), color)
                       goupdatestatus = true
                       lua_thread.create(function() wait(500) thisScript():reload() end)
                     end
                     if status1 == dlstatus.STATUSEX_ENDDOWNLOAD then
                       if goupdatestatus == nil then
-                        sampAddChatMessage((prefix..'Обновление прошло неудачно. Запускаю устаревшую версию..'), color)
+                        sampAddChatMessage((prefix..'ГЋГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ ГЇГ°Г®ГёГ«Г® Г­ГҐГіГ¤Г Г·Г­Г®. Г‡Г ГЇГіГ±ГЄГ Гѕ ГіГ±ГІГ Г°ГҐГўГёГіГѕ ГўГҐГ°Г±ГЁГѕ..'), color)
                         update = false
                       end
                     end
@@ -293,11 +293,11 @@ function autoupdate(json_url, prefix, url)
               )
             else
               update = false
-              print('v'..script_version..': Обновление не требуется.')
+              print('v'..script_version..': ГЋГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ Г­ГҐ ГІГ°ГҐГЎГіГҐГІГ±Гї.')
             end
           end
         else
-          print('v'..script_version..': Не могу проверить обновление. Смиритесь или проверьте самостоятельно на '..url)
+          print('v'..script_version..': ГЌГҐ Г¬Г®ГЈГі ГЇГ°Г®ГўГҐГ°ГЁГІГј Г®ГЎГ­Г®ГўГ«ГҐГ­ГЁГҐ. Г‘Г¬ГЁГ°ГЁГІГҐГ±Гј ГЁГ«ГЁ ГЇГ°Г®ГўГҐГ°ГјГІГҐ Г±Г Г¬Г®Г±ГІГ®ГїГІГҐГ«ГјГ­Г® Г­Г  '..url)
           update = false
         end
       end
@@ -307,7 +307,7 @@ function autoupdate(json_url, prefix, url)
 end
 
 
--- Сохранение конфига
+-- Г‘Г®ГµГ°Г Г­ГҐГ­ГЁГҐ ГЄГ®Г­ГґГЁГЈГ 
 function saveData()
     inicfg.save({
         settings =
@@ -326,14 +326,14 @@ function saveData()
 end
 
 
--- Перезагрузка скрипта
+-- ГЏГҐГ°ГҐГ§Г ГЈГ°ГіГ§ГЄГ  Г±ГЄГ°ГЁГЇГІГ 
 function scriptReload()
     thisScript():reload()
-    sampAddChatMessage(script_prefix..'Скрипт перезагружен.', -1)
+    sampAddChatMessage(script_prefix..'Г‘ГЄГ°ГЁГЇГІ ГЇГҐГ°ГҐГ§Г ГЈГ°ГіГ¦ГҐГ­.', -1)
 end
 
 
--- Кастомизация стилей
+-- ГЉГ Г±ГІГ®Г¬ГЁГ§Г Г¶ГЁГї Г±ГІГЁГ«ГҐГ©
 function apply_custom_style()
     imgui.SwitchContext()
     local style = imgui.GetStyle()
