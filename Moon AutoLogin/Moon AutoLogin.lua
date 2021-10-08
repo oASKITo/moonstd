@@ -1,7 +1,7 @@
 script_name = 'Moon AutoLogin' -- Название скрипта
 script_prefix = '{068aff}[Moon AutoLogin] {ffffff}' -- Префикс скрипта
 script_author = 'ASKIT' -- Автор скрипта
-script_version = '07.10.21' -- Версия скрипта
+script_version = '08.10.21' -- Версия скрипта
 script_site = 'vk.com/moonstd' -- Сайт
 
 require "lib.moonloader"
@@ -13,20 +13,22 @@ local cfg = inicfg.load({
     settings =
     {
         active = false,
-        pass1 = 32,
-        pass2 = 32
+        pass1 = '',
+        pass2 = ''
     }
 })
 
+-- Исправление кодировки.
 encoding.default = 'cp1251'
 local u8 = encoding.UTF8
+local function recode(u8) return encoding.UTF8:decode(u8) end
 
 ---------------------
 local mainWindowState = imgui.ImBool(false)
 
 local active = imgui.ImBool(cfg.settings.active)
-local pass1 = imgui.ImBuffer(cfg.settings.pass1)
-local pass2 = imgui.ImBuffer(cfg.settings.pass2)
+local pass1 = imgui.ImBuffer(cfg.settings.pass1, 32)
+local pass2 = imgui.ImBuffer(cfg.settings.pass2, 32)
 ---------------------
 
 
@@ -86,8 +88,10 @@ function imgui.OnDrawFrame()
             end
             imgui.Spacing()
             imgui.Spacing()
-            imgui.SetCursorPosX((imgui.GetWindowWidth() - imgui.CalcTextSize(u8"Связаться с Автором").x) / 2)
-            if imgui.Button(u8'Связаться с Автором') then os.execute('explorer "https://vk.com/askit.himself"') end
+            imgui.SetCursorPosX((imgui.GetWindowWidth() - imgui.CalcTextSize(u8'Окей').x) / 2)
+            if imgui.Button(u8'Окей') then
+                imgui.Process = false
+            end
 
         imgui.End()
         imgui.Process = mainWindowState.v
