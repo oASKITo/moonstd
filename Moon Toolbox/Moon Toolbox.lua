@@ -1,7 +1,7 @@
 script_name = 'Moon Toolbox' -- Название скрипта.
 script_prefix = '{068aff}[Moon Toolbox] {ffffff}' -- Префикс скрипта.
 script_author = 'ASKIT' -- Автор скрипта.
-script_version = '08.10.21' -- Версия скрипта.
+script_version = '09.10.21' -- Версия скрипта.
 script_site = 'vk.com/moonstd' -- Сайт.
 
 require "lib.moonloader"
@@ -43,8 +43,8 @@ inicfg.save(cfg, direct_cfg)
 
 -- Исправление кодировки.
 encoding.default = 'cp1251'
-local s = encoding.UTF8
-local function u8(s) return encoding.UTF8:decode(s) end
+local u8 = encoding.UTF8
+local function recode(u8) return encoding.UTF8:decode(u8) end
 
 local selectedTab = 1
 local account_showPassword = true
@@ -175,9 +175,9 @@ function imgui.OnDrawFrame()
         imgui.Begin(script_name..' '..script_version..' by '..script_author, window_main, imgui.WindowFlags.NoResize)
         imgui.BeginGroup()
             imgui.BeginChild('Selectable', imgui.ImVec2(200, 0), true)
-                if imgui.Selectable(s'Основные настройки', selectedTab == 1) then selectedTab = 1 end
-                if imgui.Selectable(s'Настройки рекона', selectedTab == 2) then selectedTab = 2 end
-                if imgui.Selectable(s'Мульти-чит', selectedTab == 3) then selectedTab = 3 end
+                if imgui.Selectable(u8'Основные настройки', selectedTab == 1) then selectedTab = 1 end
+                if imgui.Selectable(u8'Настройки рекона', selectedTab == 2) then selectedTab = 2 end
+                if imgui.Selectable(u8'Мульти-чит', selectedTab == 3) then selectedTab = 3 end
             imgui.EndChild()
         imgui.EndGroup()
 
