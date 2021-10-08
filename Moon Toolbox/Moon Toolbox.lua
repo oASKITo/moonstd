@@ -1,13 +1,13 @@
-script_name = 'Moon Toolbox' -- Название скрипта
-script_prefix = '{068aff}[Moon Toolbox] {ffffff}' -- Префикс скрипта
-script_author = 'ASKIT' -- Автор скрипта
-script_version = '08.10.21' -- Версия скрипта
-script_site = 'vk.com/moonstd' -- Сайт
+script_name = 'Moon Toolbox' -- Название скрипта.
+script_prefix = '{068aff}[Moon Toolbox] {ffffff}' -- Префикс скрипта.
+script_author = 'ASKIT' -- Автор скрипта.
+script_version = '08.10.21' -- Версия скрипта.
+script_site = 'vk.com/moonstd' -- Сайт.
 
 require "lib.moonloader"
 local sampev = require('lib.samp.events')
-local wm = require 'lib.windows.message' -- Библиотека с оконными сообщениями
-local vkeys = require 'vkeys' -- Библиотека с клавишами
+local wm = require 'lib.windows.message' -- Библиотека с оконными сообщениями.
+local vkeys = require 'vkeys' -- Библиотека с клавишами.
 local imgui = require 'imgui'
 local encoding = require 'encoding'
 local icon = require 'faIcons'
@@ -41,8 +41,9 @@ local cfg = inicfg.load(inicfg.load({
 }, direct_cfg))
 inicfg.save(cfg, direct_cfg)
 
+-- Исправление кодировки.
 encoding.default = 'cp1251'
-local u8 = encoding.UTF8
+local s = encoding.UTF8
 local function u8(s) return encoding.UTF8:decode(s) end
 
 local selectedTab = 1
@@ -52,12 +53,12 @@ local font = nil
 local icon_font = nil
 
 --========================================--
--- Окна
+-- Окна.
 local window_main = imgui.ImBool(false)
 local window_timeWidget = imgui.ImBool(cfg.main.timeWidget_enabled)
 local window_timeWidgetSettings = imgui.ImBool(false)
 
--- Основное
+-- Основное.
 local user_adminLevel = imgui.ImInt(cfg.main.user_adminLevel)
 local account_autoLogin = imgui.ImBool(cfg.main.account_autoLogin)
 local admin_autoLogin = imgui.ImBool(cfg.main.admin_autoLogin)
@@ -69,7 +70,7 @@ local timeWidget_fontColor = imgui.ImBuffer(cfg.main.timeWidget_fontColor, 9)
 local timeWidget_posX = imgui.ImInt(cfg.main.timeWidget_posX)
 local timeWidget_posY = imgui.ImInt(cfg.main.timeWidget_posY)
 
--- Рекон
+-- Рекон.
 local fastExit = imgui.ImBool(cfg.recon.fastExit)
 local fastExit_key1 = imgui.ImInt(cfg.recon.fastExit_key1)
 local fastExit_key2 = imgui.ImInt(cfg.recon.fastExit_key2)
@@ -87,11 +88,11 @@ function main()
     autoupdate('https://raw.githubusercontent.com/oASKITo/moonstd/main/Moon%20Toolbox/version.json', script_prefix, 'https://vk.com/moonstd')
     while not isSampAvailable() do wait(100) end
 
-    -- Команды
+    -- Команды.
         sampRegisterChatCommand("mtb", cmd_mtb)
         sampRegisterChatCommand("re", cmd_re)
 
-    -- Функции
+    -- Функции.
         autoLogin()
         keyPass()
         textdrawEdit()
@@ -99,7 +100,7 @@ function main()
 end
 
 
--- Основная команда
+-- Основная команда.
 function cmd_mtb(arg)
 
     if arg == '' then
@@ -113,7 +114,7 @@ function cmd_mtb(arg)
 end
 
 
--- Рекон из ТС
+-- Рекон из ТС.
 function cmd_re(id)
     lua_thread.create(function()
 
@@ -132,7 +133,7 @@ function cmd_re(id)
 end
 
 
--- Отрисовка шрифтов
+-- Отрисовка шрифтов.
 function imgui.BeforeDrawFrame()
 
     if icon_font == nil then
@@ -144,7 +145,7 @@ function imgui.BeforeDrawFrame()
     end
 end
 
--- Отрисовка шрифтов
+-- Отрисовка шрифтов.
 function imgui.BeforeDrawFrame()
 
     if icon_font == nil then
@@ -160,7 +161,7 @@ function imgui.BeforeDrawFrame()
 end
 
 
--- Отрисовка ImGui
+-- Отрисовка ImGui.
 function imgui.OnDrawFrame()
 
     unix_time = os.time(os.date('!*t'))
@@ -181,7 +182,7 @@ function imgui.OnDrawFrame()
         imgui.EndGroup()
 
         imgui.SameLine()
-
+        -- Основные настройки.
         if selectedTab == 1 then
             imgui.BeginGroup()
                 imgui.BeginChild('main', imgui.ImVec2(595, 0), true)
@@ -230,7 +231,7 @@ function imgui.OnDrawFrame()
             imgui.EndGroup()
         end
 
-        -- Рекон
+        -- Настройки рекона.
         if selectedTab == 2 then
             imgui.BeginGroup()
                 imgui.BeginChild('recon', imgui.ImVec2(595, 0), true)
@@ -284,7 +285,7 @@ function imgui.OnDrawFrame()
                 imgui.EndChild()
             imgui.EndGroup()
         end
-
+        -- Мульти-чит.
         if selectedTab == 3 then
             imgui.BeginGroup()
                 imgui.BeginChild('cheats', imgui.ImVec2(595, 0), true)
@@ -298,7 +299,7 @@ function imgui.OnDrawFrame()
         imgui.End()
     end
 
-    -- Виджет времени
+    -- Виджет времени.
     if window_timeWidget.v then
         imgui.SetNextWindowPos(imgui.ImVec2(cfg.main.timeWidget_posX, cfg.main.timeWidget_posY), imgui.Cond.FirstUseEver)
         imgui.Begin('##window_timeWidget', window_timeWidget, imgui.WindowFlags.NoResize + imgui.WindowFlags.NoTitleBar + imgui.WindowFlags.AlwaysAutoResize)
@@ -325,7 +326,8 @@ function imgui.OnDrawFrame()
         imgui.End() 
     end
 
-    -- Настройки виджета времени
+
+    -- Настройки виджета времени.
     if window_timeWidgetSettings.v then
         imgui.Begin('##window_timeWidget', window_timeWidgetSettings, imgui.WindowFlags.NoResize + imgui.WindowFlags.NoTitleBar + imgui.WindowFlags.AlwaysAutoResize)
 
@@ -348,7 +350,7 @@ function imgui.OnDrawFrame()
 end
 
 
--- Автоматическая авторизация
+-- Автоматическая авторизация.
 function autoLogin()
     lua_thread.create(function()
         while true do wait(0)
@@ -375,12 +377,12 @@ function autoLogin()
 end
 
 
--- Обработка нажатий
+-- Обработка нажатий.
 function keyPass()
     lua_thread.create(function()
         while true do wait(0)
             
-            -- Быстрый выход из рекона
+            -- Быстрый выход из рекона.
                 if user_isRecon and cfg.recon.fastExit and isKeyJustPressed(cfg.recon.fastExit_key1) and isKeyJustPressed(cfg.recon.fastExit_key2) and not sampIsChatInputActive() and not sampIsDialogActive() and not isSampfuncsConsoleActive() then
                     sampSendChat('/reoff')
                 end
@@ -389,7 +391,7 @@ function keyPass()
     end)
 end
 
--- Проверка диалога
+-- Проверка диалога.
 function sampev.onShowDialog(id, style, title, button1, button2, text)
 
     -- Для autoLogin()
@@ -403,7 +405,7 @@ function sampev.onShowDialog(id, style, title, button1, button2, text)
 end
 
 
--- Поиск строк
+-- Поиск строк.
 function sampev.onServerMessage(color, text)
     if current_dialog == '2' and text:find('Вы авторизировались как администратор (%d) уровня') then
         cfg.main.user_adminLevel = tonumber(text:match('%d'))
@@ -412,7 +414,7 @@ function sampev.onServerMessage(color, text)
 end
 
 
--- Подсказка на кнопке
+-- Подсказка на кнопке.
 function imgui.Question(text)
     if imgui.IsItemHovered() then
         imgui.BeginTooltip()
@@ -424,7 +426,7 @@ function imgui.Question(text)
 end
 
 
--- Закрытие окна ImGui на ESC
+-- Закрытие окна ImGui на ESC.
 function onWindowMessage(msg, wparam, lparam)
 
     if wparam == vkeys.VK_ESCAPE and window_main.v then
@@ -440,14 +442,14 @@ function onWindowMessage(msg, wparam, lparam)
 end
 
 
--- Редактирование текстдравов
+-- Редактирование текстдравов.
 function textdrawEdit()
 
     lua_thread.create(function()
         while true do wait(0)
 
             if cfg.recon.interface_customPos then
-                ---------------------- Левая панель
+                ---------------------- Левая панель.
                 sampTextdrawSetPos(199, 5.5991560220718, 159.60740661621)
                 --
                 sampTextdrawSetPos(200, 6.9654740095139, 161.35179138184)
@@ -471,7 +473,7 @@ function textdrawEdit()
                 sampTextdrawSetPos(217, 29.433361053467, 272.96905517578)
                 --
                 sampTextdrawSetPos(2052, 29.400733947754, 286.59942626953)
-                ---------------------- Правая панель
+                ---------------------- Правая панель.
                 sampTextdrawSetPos(187, 552.29736328125, 155.58518981934)
                 sampTextdrawSetPos(188, 552.19873046875, 155.58518981934)
                 sampTextdrawSetPos(189, 550.66558837891, 149.23330688477)
@@ -488,7 +490,7 @@ function textdrawEdit()
                 sampTextdrawSetPos(2050, 602.89813232422, 166.1773223877)
                 sampTextdrawSetPos(2051, 602.79797363281, 225.17710876465)
             else
-                ---------------------- Левая панель
+                ---------------------- Левая панель.
                 sampTextdrawSetPos(199, 5.5991560220718-5, 159.60740661621)
                 --
                 sampTextdrawSetPos(200, 6.9654740095139-5, 161.35179138184)
@@ -512,7 +514,7 @@ function textdrawEdit()
                 sampTextdrawSetPos(217, 29.433361053467-5, 272.96905517578)
                 --
                 sampTextdrawSetPos(2052, 29.400733947754-5, 286.59942626953)
-                ---------------------- Правая панель
+                ---------------------- Правая панель.
                 sampTextdrawSetPos(187, 552.29736328125+10, 155.58518981934)
                 sampTextdrawSetPos(188, 552.19873046875+10, 155.58518981934)
                 sampTextdrawSetPos(189, 550.66558837891+10, 149.23330688477)
@@ -710,7 +712,7 @@ end
 -- S A M P - E V E N T S ===================================
 
 
--- Сохранение конфига
+-- Сохранение конфига.
 function saveData()
     inicfg.save({
         settings =
@@ -744,7 +746,7 @@ function saveData()
 end
 
 
--- Перезагрузка скрипта
+-- Перезагрузка скрипта.
 function scriptReload()
     thisScript():reload()
     sampAddChatMessage(script_prefix..'Скрипт перезагружен.', -1)
