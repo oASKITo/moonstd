@@ -43,7 +43,6 @@ inicfg.save(cfg, direct_cfg)
 
 -- Исправление кодировки.
 encoding.default = 'cp1251'
-local s = encoding.UTF8
 local function u8(s) return encoding.UTF8:decode(s) end
 
 local selectedTab = 1
