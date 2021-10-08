@@ -67,7 +67,7 @@ function imgui.OnDrawFrame()
         local resX, resY = getScreenResolution()
         imgui.SetNextWindowSize(imgui.ImVec2(300, 150), 2)
         imgui.SetNextWindowPos(imgui.ImVec2(resX/2, resY/2), 2, imgui.ImVec2(0.5, 0.5))
-        imgui.Begin(script_name..' '..script_version, mainWindowState, imgui.WindowFlags.NoResize)
+        imgui.Begin(script_name..' '..script_version, mainWindowState, imgui.WindowFlags.NoResize + imgui.WindowFlags.NoTitleBar + imgui.WindowFlags.AlwaysAutoResize)
 
             if imgui.Checkbox(u8'Авто-ввод паролей', active) then
                 cfg.settings.active = active.v
@@ -88,8 +88,9 @@ function imgui.OnDrawFrame()
             end
             imgui.Spacing()
             imgui.Spacing()
-            imgui.SetCursorPosX((imgui.GetWindowWidth() - imgui.CalcTextSize(u8'Окей').x) / 2)
-            if imgui.Button(u8'Окей') then
+            imgui.SetCursorPosX((imgui.GetWindowWidth() - imgui.CalcTextSize(u8'Окей').x)/2-20)
+            if imgui.Button(u8'Окей', imgui.ImVec2(80, 20)) then
+                mainWindowState.v = false
                 imgui.Process = false
             end
 
