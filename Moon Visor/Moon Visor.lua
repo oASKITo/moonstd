@@ -1,17 +1,21 @@
-script_name = 'Moon Visor' -- Название скрипта
-script_prefix = '{068aff}[Moon Visor] {ffffff}' -- Префикс скрипта
-script_author = 'ASKIT' -- Автор скрипта
-script_version = '08.10.21' -- Версия скрипта
-script_site = 'vk.com/moonstd' -- Сайт
+script_name = 'Moon Visor'
+script_prefix = '{068aff}[Moon Visor] {ffffff}'
+script_author = 'ASKIT'
+script_version = '10.10.21'
+script_site = 'vk.com/moonstd'
 
 require "lib.moonloader"
 local sampev = require('lib.samp.events')
-local wm = require 'lib.windows.message' -- Библиотека с оконными сообщениями
-local vkeys = require 'vkeys' -- Библиотека с клавишами
+local wm = require 'lib.windows.message'
+local vkeys = require 'vkeys'
 local imgui = require 'imgui'
+local icon = require 'faIcons'
+-- Исправление кодировки.
 local encoding = require 'encoding'
-encoding.default = 'cp1251'
 local u8 = encoding.UTF8
+encoding.default = 'cp1251'
+local function recode(u8) return encoding.UTF8:decode(u8) end
+--
 local inicfg = require 'inicfg'
 local direct_cfg = '../moonstd/Moon Visor.ini'
 local cfg = inicfg.load(inicfg.load({
@@ -28,6 +32,13 @@ local cfg = inicfg.load(inicfg.load({
     },
 }, direct_cfg))
 inicfg.save(cfg, direct_cfg)
+
+
+local font_14 = nil
+local font_22 = nil
+local icon_font_14 = nil
+local icon_font_22 = nil
+
 
 --========================================--
 local resX, resY = getScreenResolution()
@@ -50,7 +61,7 @@ local rp_offVisor = imgui.ImBuffer(cfg.settings.rp_offVisor, 256)
 
 function main()
     if not isSampLoaded() or not isSampfuncsLoaded() then return end
-    autoupdate('https://raw.githubusercontent.com/oASKITo/moonstd/main/Moon%20Visor/version.json', script_prefix, 'https://vk.com/moonstd')
+    autoupdate('https://www.dropbox.com/s/em6w3grwsv8dk6v/version.json?dl=0', script_prefix, 'https://vk.com/moonstd')
     while not isSampAvailable() do wait(100) end
 
     -- Команды
@@ -76,6 +87,24 @@ function cmd_mv(arg)
 end
 
 
+-- Отрисовка шрифтов.
+function imgui.BeforeDrawFrame()
+
+    local icon_glyph_ranges = imgui.ImGlyphRanges({ icon.min_range, icon.max_range })
+    local font_config = imgui.ImFontConfig()
+    font_config.MergeMode = true
+
+    if font_14 == nil then
+        font_14 = imgui.GetIO().Fonts:AddFontFromFileTTF(getFolderPath(0x14)..'\\trebucbd.ttf', 14, nil, imgui.GetIO().Fonts:GetGlyphRangesCyrillic()) 
+        icon_font_14 = imgui.GetIO().Fonts:AddFontFromFileTTF('moonloader/resource/fonts/fa-solid-900.ttf', 14.0, font_config, icon_glyph_ranges) 
+    end 
+    if font_22 == nil then
+        font_22 = imgui.GetIO().Fonts:AddFontFromFileTTF(getFolderPath(0x14)..'\\trebucbd.ttf', 22, nil, imgui.GetIO().Fonts:GetGlyphRangesCyrillic()) 
+        icon_font_22 = imgui.GetIO().Fonts:AddFontFromFileTTF('moonloader/resource/fonts/fa-solid-900.ttf', 22.0, font_config, icon_glyph_ranges) 
+    end 
+end
+
+
 -- Отрисовка ImGui
 function imgui.OnDrawFrame()
 
@@ -84,22 +113,18 @@ function imgui.OnDrawFrame()
         imgui.SetNextWindowPos(imgui.ImVec2(resX/2, resY/2), 2, imgui.ImVec2(0.5, 0.5))
         imgui.Begin(script_name..' '..script_version..' by '..script_author, mainWindowState, imgui.WindowFlags.NoResize + imgui.WindowFlags.AlwaysAutoResize + imgui.WindowFlags.NoCollapse)
 
+            imgui.PushFont(font_14)
+
             if imgui.Checkbox(u8'Активировать скрипт', script_enabled) then
                 cfg.settings.script_enabled = script_enabled.v
                 inicfg.save(cfg)
             end
             imgui.Question(u8'Активируйте скрипт, чтобы использовать визор')
-            imgui.SameLine()
             imgui.PushItemWidth(30)
             if imgui.InputInt(u8'Клавиша активации визора', script_hothey, 0, 0) then
                 cfg.settings.script_hothey = script_hothey.v
                 inicfg.save(cfg)
             end
-            imgui.SameLine()
-            if imgui.Link(u8"(?)", u8"Перейти на сайт, для просмотра номеров клавиш") then
-                os.execute(('explorer.exe "%s"'):format('https://www.blast.hk/threads/8760/'))
-            end
-            imgui.Spacing()
             imgui.Spacing()
             imgui.Separator()
             imgui.Spacing()
@@ -113,27 +138,28 @@ function imgui.OnDrawFrame()
                 inicfg.save(cfg)
             end
             imgui.Question(u8'Анимация надевания визора')
-            if cfg.settings.use_roleplay then
-                imgui.PushItemWidth(340)
-                imgui.Text('/me')
-                imgui.SameLine()
-                if imgui.InputTextWithHint(u8'##rp_onVisor', u8'Включение визора', rp_onVisor) then
-                    cfg.settings.rp_onVisor = rp_onVisor.v
-                    inicfg.save(cfg)
-                end
-                imgui.Text('/me')
-                imgui.SameLine()
-                if imgui.InputTextWithHint(u8'##rp_toggleVisor', u8'Переключение визора', rp_toggleVisor) then
-                    cfg.settings.rp_toggleVisor = rp_toggleVisor.v
-                    inicfg.save(cfg)
-                end
-                imgui.Text('/me')
-                imgui.SameLine()
-                if imgui.InputTextWithHint(u8'##rp_offVisor', u8'Отключение визора', rp_offVisor) then
-                    cfg.settings.rp_offVisor = rp_offVisor.v
-                    inicfg.save(cfg)
-                end
+            imgui.Spacing()
+            imgui.PushItemWidth(340)
+            imgui.Text('/me')
+            imgui.SameLine()
+            if imgui.InputTextWithHint(u8'##rp_onVisor', u8'Включение визора', rp_onVisor) then
+                cfg.settings.rp_onVisor = rp_onVisor.v
+                inicfg.save(cfg)
             end
+            imgui.Text('/me')
+            imgui.SameLine()
+            if imgui.InputTextWithHint(u8'##rp_toggleVisor', u8'Переключение визора', rp_toggleVisor) then
+                cfg.settings.rp_toggleVisor = rp_toggleVisor.v
+                inicfg.save(cfg)
+            end
+            imgui.Text('/me')
+            imgui.SameLine()
+            if imgui.InputTextWithHint(u8'##rp_offVisor', u8'Отключение визора', rp_offVisor) then
+                cfg.settings.rp_offVisor = rp_offVisor.v
+                inicfg.save(cfg)
+            end
+
+            imgui.PopFont()
 
         imgui.End()
         imgui.Process = mainWindowState.v
@@ -337,6 +363,47 @@ end
 function apply_custom_style()
     imgui.SwitchContext()
     local style = imgui.GetStyle()
+    local colors = style.Colors
+    local clr = imgui.Col
+    local ImVec4 = imgui.ImVec4
+    local ImVec2 = imgui.ImVec2
+
+    style.WindowPadding = ImVec2(20, 20)
+    style.WindowRounding = 16
     style.WindowTitleAlign = imgui.ImVec2(0.5, 0.5)
+    style.FramePadding = ImVec2(6, 4)
+    style.FrameRounding = 5
+    style.ItemSpacing = ImVec2(8, 3)
+    style.ItemInnerSpacing = ImVec2(4, 4)
+    style.GrabMinSize = 5
+    style.GrabRounding = 16
+
+    colors[clr.Text]                   = ImVec4(1.00, 1.00, 1.00, 1.00);
+    colors[clr.WindowBg]               = ImVec4(0.00, 0.00, 0.00, 0.67);
+    colors[clr.PopupBg]                = ImVec4(0.16, 0.17, 0.20, 0.80);
+    colors[clr.Border]                 = ImVec4(0.26, 0.27, 0.30, 0.80);
+    colors[clr.FrameBg]                = ImVec4(0.16, 0.17, 0.20, 0.80);
+    colors[clr.FrameBgHovered]         = ImVec4(0.16, 0.17, 0.20, 1.00);
+    colors[clr.FrameBgActive]          = ImVec4(0.16, 0.17, 0.20, 0.67);
+    colors[clr.TitleBg]                = ImVec4(0.16, 0.17, 0.20, 0.93);
+    colors[clr.TitleBgActive]          = ImVec4(0.16, 0.17, 0.20, 1.00);
+    colors[clr.TitleBgCollapsed]       = ImVec4(0.16, 0.17, 0.20, 0.67);
+    colors[clr.ScrollbarBg]            = ImVec4(0.16, 0.17, 0.20, 0.80);
+    colors[clr.ScrollbarGrab]          = ImVec4(0.18, 0.56, 1.00, 0.93);
+    colors[clr.ScrollbarGrabHovered]   = ImVec4(0.18, 0.56, 1.00, 1.00);
+    colors[clr.ScrollbarGrabActive]    = ImVec4(0.18, 0.56, 1.00, 0.67);
+    colors[clr.CheckMark]              = ImVec4(0.18, 0.56, 1.00, 1.00);
+    colors[clr.SliderGrabActive]       = ImVec4(0.18, 0.56, 1.00, 1.00);
+    colors[clr.Button]                 = ImVec4(0.18, 0.56, 1.00, 0.87);
+    colors[clr.ButtonHovered]          = ImVec4(0.18, 0.56, 1.00, 1.00);
+    colors[clr.ButtonActive]           = ImVec4(0.18, 0.56, 1.00, 0.67);
+    colors[clr.Header]                 = ImVec4(0.18, 0.56, 1.00, 0.87);
+    colors[clr.HeaderHovered]          = ImVec4(0.18, 0.56, 1.00, 1.00);
+    colors[clr.HeaderActive]           = ImVec4(0.18, 0.56, 1.00, 0.67);
+    colors[clr.Separator]              = ImVec4(0.26, 0.27, 0.30, 0.80);
+    colors[clr.CloseButton]            = ImVec4(0.26, 0.27, 0.30, 0.80);
+    colors[clr.CloseButtonHovered]     = ImVec4(0.26, 0.27, 0.30, 1.00);
+    colors[clr.CloseButtonActive]      = ImVec4(0.26, 0.27, 0.30, 0.60);
+    colors[clr.TextSelectedBg]         = ImVec4(0.18, 0.56, 1.00, 0.31);
 end
 apply_custom_style()
